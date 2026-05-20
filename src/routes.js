@@ -4,7 +4,7 @@ import controllerAluno from "./controllers/alunoController.js";
 import instrutorController from "./controllers/instrutorController.js";
 import planoController from "./controllers/PlanoController.js";
 import notaController from "./controllers/notaController.js";
-import AulaController from "./controllers/AulaController.js";
+import aulaController from "./controllers/aulaController.js";
 
 import usuarioController from "./controllers/usuarioController.js";
 
