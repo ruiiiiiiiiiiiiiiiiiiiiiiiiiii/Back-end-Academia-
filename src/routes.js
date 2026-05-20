@@ -142,22 +142,22 @@ router.delete(
 
 router.get(
     "/aulas",
-    AulaController.Listar
+    aulaController.Listar
 );
 
 router.post(
     "/aulas",
-    AulaController.Inserir
+    aulaController.Inserir
 );
 
 router.put(
     "/aulas/:id",
-    AulaController.Editar
+    aulaController.Editar
 );
 
 router.delete(
     "/aulas/:id",
-    AulaController.Excluir
+    aulaController.Excluir
 );
 
 export default router;
