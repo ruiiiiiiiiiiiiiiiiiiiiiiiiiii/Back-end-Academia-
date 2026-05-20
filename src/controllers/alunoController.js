@@ -1,27 +1,71 @@
 import serviceAluno from "../services/serviceAluno.js";
+
 async function Listar(req, res){
     const alunos = await serviceAluno.Listar();
-    res.status(200).json({alunos});        
+    res.status(200).json({ alunos });        
 }
 
 async function Inserir(req, res) {
-    const {matricula, nome, sobrenome} = req.body;     
-    const aluno = await serviceAluno.Inserir(matricula, nome, sobrenome) 
-    res.status(201).json({"mensagem":"sucesso"}) 
+    const {
+        nome,
+        cpf,
+        data_nascimento,
+        sexo,
+        telefone,
+        endereco,
+        status,
+        senha
+    } = req.body;     
+
+    await serviceAluno.Inserir(
+        nome,
+        cpf,
+        data_nascimento,
+        sexo,
+        telefone,
+        endereco,
+        status,
+        senha
+    );
+
+    res.status(201).json({ mensagem: "Aluno cadastrado com sucesso" }); 
 }
 
 async function Editar(req, res) {
     const id = req.params.id;
-    const {nome, sobrenome} = req.body;     
-    const aluno = await serviceAluno.Editar(id, nome, sobrenome) 
-    res.status(200).json(aluno) 
+
+    const {
+        nome,
+        cpf,
+        data_nascimento,
+        sexo,
+        telefone,
+        endereco,
+        status,
+        senha
+    } = req.body;     
+
+    const aluno = await serviceAluno.Editar(
+        id,
+        nome,
+        cpf,
+        data_nascimento,
+        sexo,
+        telefone,
+        endereco,
+        status,
+        senha
+    );
+
+    res.status(200).json(aluno); 
 }
 
 async function Excluir(req, res) {
     const id = req.params.id;
         
-    const aluno = await serviceAluno.Excluir(id) 
-    res.status(200).json(aluno) 
+    await serviceAluno.Excluir(id);
+
+    res.status(200).json({ mensagem: "Aluno removido com sucesso" }); 
 }
 
-export default {Listar, Inserir, Editar, Excluir}
+export default { Listar, Inserir, Editar, Excluir };
