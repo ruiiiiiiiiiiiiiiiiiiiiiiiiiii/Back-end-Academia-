@@ -9,22 +9,24 @@ async function Listar(req, res) {
 
 async function Inserir(req, res) {
 
+    console.log(req.body);
+
     const {
-        nome_aluno,
-        telefone,
+        id_aluno,
         tipo_aula,
         id_instrutor,
         data_inicio,
-        data_fim
+        data_fim,
+        status
     } = req.body;
 
     await aulaService.Inserir(
-        nome_aluno,
-        telefone,
+        id_aluno,
         tipo_aula,
         id_instrutor,
         data_inicio,
-        data_fim
+        data_fim,
+        status
     );
 
     res.status(201).json({
@@ -37,8 +39,7 @@ async function Editar(req, res) {
     const id = req.params.id;
 
     const {
-        nome_aluno,
-        telefone,
+        id_aluno,
         tipo_aula,
         id_instrutor,
         data_inicio,
@@ -48,8 +49,7 @@ async function Editar(req, res) {
 
     await aulaService.Editar(
         id,
-        nome_aluno,
-        telefone,
+        id_aluno,
         tipo_aula,
         id_instrutor,
         data_inicio,

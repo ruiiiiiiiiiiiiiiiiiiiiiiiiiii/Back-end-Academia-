@@ -5,28 +5,27 @@ async function Listar() {
 }
 
 async function Inserir(
-    nome_aluno,
-    telefone,
+    id_aluno,
     tipo_aula,
     id_instrutor,
     data_inicio,
-    data_fim
+    data_fim,
+    status
 ) {
 
     return await aulaRepository.Inserir(
-        nome_aluno,
-        telefone,
+        id_aluno,
         tipo_aula,
         id_instrutor,
         data_inicio,
-        data_fim
+        data_fim,
+        status
     );
 }
 
 async function Editar(
     id,
-    nome_aluno,
-    telefone,
+    id_aluno,
     tipo_aula,
     id_instrutor,
     data_inicio,
@@ -36,8 +35,7 @@ async function Editar(
 
     return await aulaRepository.Editar(
         id,
-        nome_aluno,
-        telefone,
+        id_aluno,
         tipo_aula,
         id_instrutor,
         data_inicio,

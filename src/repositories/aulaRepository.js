@@ -2,13 +2,17 @@ import con from "../database/connection.js";
 
 async function Listar() {
 
-    let sql = `
+    const sql = `
         SELECT
             a.*,
+            al.nome AS nome_aluno,
             i.nome AS instrutor
         FROM aulas a
-        INNER JOIN instrutores i
-        ON a.id_instrutor = i.id_instrutor
+        LEFT JOIN alunos al
+            ON a.id_aluno = al.id_aluno
+        LEFT JOIN instrutores i
+            ON a.id_instrutor = i.id_instrutor
+        ORDER BY a.data_inicio
     `;
 
     const [aulas] = await con.connection.execute(sql);
@@ -17,34 +21,34 @@ async function Listar() {
 }
 
 async function Inserir(
-    nome_aluno,
-    telefone,
+    id_aluno,
     tipo_aula,
     id_instrutor,
     data_inicio,
-    data_fim
+    data_fim,
+    status
 ) {
 
-    let sql = `
+    const sql = `
         INSERT INTO aulas
         (
-            nome_aluno,
-            telefone,
+            id_aluno,
             tipo_aula,
             id_instrutor,
             data_inicio,
-            data_fim
+            data_fim,
+            status
         )
         VALUES (?, ?, ?, ?, ?, ?)
     `;
 
     await con.connection.execute(sql, [
-        nome_aluno || null,
-        telefone || null,
+        id_aluno || null,
         tipo_aula || null,
         id_instrutor || null,
         data_inicio || null,
-        data_fim || null
+        data_fim || null,
+        status || "agendada"
     ]);
 
     return {
@@ -54,8 +58,7 @@ async function Inserir(
 
 async function Editar(
     id,
-    nome_aluno,
-    telefone,
+    id_aluno,
     tipo_aula,
     id_instrutor,
     data_inicio,
@@ -63,22 +66,20 @@ async function Editar(
     status
 ) {
 
-    let sql = `
+    const sql = `
         UPDATE aulas
         SET
-            nome_aluno=?,
-            telefone=?,
-            tipo_aula=?,
-            id_instrutor=?,
-            data_inicio=?,
-            data_fim=?,
-            status=?
-        WHERE id_aula=?
+            id_aluno = ?,
+            tipo_aula = ?,
+            id_instrutor = ?,
+            data_inicio = ?,
+            data_fim = ?,
+            status = ?
+        WHERE id_aula = ?
     `;
 
     await con.connection.execute(sql, [
-        nome_aluno || null,
-        telefone || null,
+        id_aluno || null,
         tipo_aula || null,
         id_instrutor || null,
         data_inicio || null,
@@ -94,9 +95,9 @@ async function Editar(
 
 async function Excluir(id) {
 
-    let sql = `
+    const sql = `
         DELETE FROM aulas
-        WHERE id_aula=?
+        WHERE id_aula = ?
     `;
 
     await con.connection.execute(sql, [id]);

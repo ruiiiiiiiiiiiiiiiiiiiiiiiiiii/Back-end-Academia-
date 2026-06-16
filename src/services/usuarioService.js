@@ -1,5 +1,4 @@
-import usuarioRepository
-from "../repositories/usuarioRepository.js";
+import usuarioRepository from "../repositories/usuarioRepository.js";
 
 async function Login(usuario, senha) {
 
@@ -28,6 +27,12 @@ async function TrocarSenha(
     id_usuario,
     senha
 ) {
+
+    console.log(
+        "SERVICE:",
+        id_usuario,
+        senha
+    );
 
     return await usuarioRepository.TrocarSenha(
         id_usuario,
