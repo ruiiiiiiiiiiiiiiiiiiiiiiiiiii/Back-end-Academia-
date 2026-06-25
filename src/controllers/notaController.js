@@ -6,31 +6,49 @@ async function Listar(req, res){
 }
 
 async function Inserir(req, res) {
-    const {
-        titulo,
-        descricao,
-        tipo,
-        prioridade,
-        status,
-        criado_por,
-        setor,
-        visivel_para_todos,
-        observacoes_internas
-    } = req.body;     
 
-    await serviceNota.Inserir(
-        titulo,
-        descricao,
-        tipo,
-        prioridade,
-        status,
-        criado_por,
-        setor,
-        visivel_para_todos,
-        observacoes_internas
-    );
+    try {
 
-    res.status(201).json({ mensagem: "Nota criada com sucesso" }); 
+        console.log("BODY RECEBIDO:");
+        console.log(req.body);
+
+        const {
+            titulo,
+            descricao,
+            tipo,
+            prioridade,
+            status,
+            criado_por,
+            setor,
+            visivel_para_todos,
+            observacoes_internas
+        } = req.body;
+
+        await serviceNota.Inserir(
+            titulo,
+            descricao,
+            tipo,
+            prioridade,
+            status,
+            criado_por,
+            setor,
+            visivel_para_todos,
+            observacoes_internas
+        );
+
+        res.status(201).json({
+            mensagem: "Nota criada com sucesso"
+        });
+
+    } catch (erro) {
+
+        console.error("ERRO AO INSERIR NOTA:");
+        console.error(erro);
+
+        res.status(500).json({
+            erro: erro.message
+        });
+    }
 }
 
 async function Editar(req, res) {
