@@ -1,63 +1,129 @@
 import con from "../database/connection.js";
 
 async function Listar() {
-    let sql = "SELECT * FROM planos";
 
-    const [planos] = await con.connection.execute(sql);
+const sql = `
+    SELECT *
+    FROM notas_admin
+    ORDER BY id DESC
+`;
 
-    return planos;
+const [notas] =
+await con.connection.execute(sql);
+
+return notas;
+
 }
 
 async function Inserir(
-    valor,
-    duracao_meses,
-    descricao
+titulo,
+descricao,
+tipo,
+prioridade,
+status,
+criado_por,
+setor,
+visivel_para_todos,
+observacoes_internas
 ) {
-    let sql = `
-        INSERT INTO planos
-        (valor, duracao_meses, descricao)
-        VALUES (?, ?, ?)
-    `;
 
-    await con.connection.execute(sql, [
-        valor ?? null,
-        duracao_meses ?? null,
-        descricao ?? null
-    ]);
+const sql = `
+    INSERT INTO notas_admin
+    (
+        titulo,
+        descricao,
+        tipo,
+        prioridade,
+        status,
+        criado_por,
+        setor,
+        visivel_para_todos,
+        observacoes_internas
+    )
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
 
-    return { mensagem: "Plano inserido com sucesso" };
+await con.connection.execute(sql, [
+    titulo,
+    descricao,
+    tipo,
+    prioridade,
+    status,
+    criado_por,
+    setor,
+    visivel_para_todos,
+    observacoes_internas
+]);
+
+return {
+    mensagem: "Nota criada com sucesso"
+};
+
 }
 
 async function Editar(
-    id,
-    valor,
-    duracao_meses,
-    descricao
+id,
+titulo,
+descricao,
+tipo,
+prioridade,
+status,
+criado_por,
+setor,
+visivel_para_todos,
+observacoes_internas
 ) {
-    let sql = `
-        UPDATE planos
-        SET valor=?,
-            duracao_meses=?,
-            descricao=?
-        WHERE id_plano=?
-    `;
 
-    await con.connection.execute(sql, [
-        valor ?? null,
-        duracao_meses ?? null,
-        descricao ?? null,
-        id
-    ]);
+const sql = `
+    UPDATE notas_admin
+    SET
+        titulo=?,
+        descricao=?,
+        tipo=?,
+        prioridade=?,
+        status=?,
+        criado_por=?,
+        setor=?,
+        visivel_para_todos=?,
+        observacoes_internas=?
+    WHERE id=?
+`;
 
-    return { id };
+await con.connection.execute(sql, [
+    titulo,
+    descricao,
+    tipo,
+    prioridade,
+    status,
+    criado_por,
+    setor,
+    visivel_para_todos,
+    observacoes_internas,
+    id
+]);
+
+return { id };
+
 }
 
 async function Excluir(id) {
-    let sql = "DELETE FROM planos WHERE id_plano=?";
 
-    await con.connection.execute(sql, [id]);
+const sql = `
+    DELETE FROM notas_admin
+    WHERE id=?
+`;
 
-    return { mensagem: "Plano removido com sucesso" };
+await con.connection.execute(sql, [id]);
+
+return {
+    mensagem: "Nota removida com sucesso"
+};
+
 }
 
-export default { Listar, Inserir, Editar, Excluir };
+export default {
+Listar,
+Inserir,
+Editar,
+Excluir
+};
